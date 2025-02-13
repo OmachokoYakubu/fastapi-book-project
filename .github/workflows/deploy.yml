@@ -10,18 +10,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          repository: OmachokoYakubu/fastapi-book-project
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
-    - name: Build Docker image
-      run: |
-        docker build -t fastapi-app .
+      - name: Install dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt
 
-    - name: Run Docker container
-      run: |
-        docker run -d -p 8000:8000 fastapi-app
+      - name: Run database migrations
+        run: |
+          source venv/bin/activate
+          alembic upgrade head
+
+      - name: Deploy FastAPI App with Docker
+        run: |
+          docker build -t fastapi-app .
+          docker run -d -p 8000:8000 fastapi-app
+
