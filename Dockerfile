@@ -4,10 +4,13 @@ FROM python:3.10-slim
 # Set working directory
 WORKDIR /app
 
+# Install system dependencies
+RUN apt update && apt install -y curl
+
 # Copy project files
 COPY . /app
 
-# Install dependencies
+# Install Python dependencies
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Expose port
