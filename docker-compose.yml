@@ -20,7 +20,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - /etc/nginx/sites-available/fastapi.conf:/etc/nginx/conf.d/default.conf:ro  # Updated path
+      - ./nginx/fastapi.conf:/etc/nginx/conf.d/default.conf:ro  # Updated path
     depends_on:
       - api
     restart: always
